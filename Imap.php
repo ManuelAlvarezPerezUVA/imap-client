@@ -39,7 +39,7 @@ class Imap {
      * @var bool
      */
     protected $embed = false;
-
+protected $mailbox2;
 
     /**
      * initialize imap helper
@@ -58,9 +58,18 @@ class Imap {
             $enc = '/imap/tls/novalidate-cert';
         }
         $this->mailbox = "{" . $mailbox . $enc . "}";
+        $this->mailbox2 = "{" . $mailbox . "}";
         $this->imap = @imap_open($this->mailbox, $username, $password);
     }
 
+public function sent($mail_string) {
+  //$mail_string = $mail->getSentMIMEMessage();
+  //imap_append($ImapStream, $folder, $mail_string, "\\Seen");
+
+
+
+  return imap_append($this->imap, $this->mailbox2.'INBOX.Sent', $mail_string);
+}
 
     /**
      * close connection
@@ -179,6 +188,7 @@ class Imap {
         $emails = array();
         for ($i=1;$i<=$count;$i++) {
             $emails[]= $this->formatMessage($i, $withbody);
+            imap_setflag_full($this->imap, $i,"\\Seen");
         }
 
         // sort emails descending by date
@@ -721,7 +731,7 @@ class Imap {
                 }
             }
 
-            // multipart 
+            // multipart
             if ($structure->type == 1) {
                 foreach ($structure->parts as $index => $subStruct) {
                     $prefix = "";
