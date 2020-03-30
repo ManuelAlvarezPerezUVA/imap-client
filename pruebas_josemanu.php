@@ -2,10 +2,14 @@
 
 require_once "Imap.php";
 
-$mailbox = 'mail.gdpempresa.com';
-$username = 'automaticos@gdpempresa.com';
-$password = '5Sm3k7?t';
+// $mailbox = 'mail.gdpempresa.com';
+// $username = 'automaticos@gdpempresa.com';
+// $password = '5Sm3k7?t';
 $encryption = 'tls'; // or ssl or ''
+$mailbox = 'imap.vavantia.com';
+$username = 'gestion@vavantia.com';
+$password = '6wbZWvoB';
+
 
 // open connection
 $imap = new Imap($mailbox, $username, $password, $encryption);
@@ -83,7 +87,7 @@ $cuerpo_mail = $cuerpo;
 
 $mail_string = $mail->getSentMIMEMessage();
 
-echo "Sent".$imap->sent($mail_string);
+// echo "Sent".$imap->sent($mail_string);
 
 
 
